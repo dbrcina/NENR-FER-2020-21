@@ -1,0 +1,36 @@
+Elementi domene d1:
+Element domene: 0
+Element domene: 1
+Element domene: 2
+Element domene: 3
+Element domene: 4
+Kardinalitet domene je: 5
+
+Elementi domene d2:
+Element domene: 0
+Element domene: 1
+Element domene: 2
+Kardinalitet domene je: 3
+
+Elementi domene d3:
+Element domene: (0,0)
+Element domene: (0,1)
+Element domene: (0,2)
+Element domene: (1,0)
+Element domene: (1,1)
+Element domene: (1,2)
+Element domene: (2,0)
+Element domene: (2,1)
+Element domene: (2,2)
+Element domene: (3,0)
+Element domene: (3,1)
+Element domene: (3,2)
+Element domene: (4,0)
+Element domene: (4,1)
+Element domene: (4,2)
+Kardinalitet domene je: 15
+
+(0,0)
+(1,2)
+(4,2)
+13
