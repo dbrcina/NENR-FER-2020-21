@@ -38,18 +38,18 @@ public class CompositeDomain extends Domain {
 
     private static class CompositeDomainElementIterator implements Iterator<DomainElement> {
 
-        private final CompositeDomain compositeDomain;
+        private final IDomain domain;
         private final int[] componentsIndexes;
         private int counter;
 
-        private CompositeDomainElementIterator(CompositeDomain compositeDomain) {
-            this.compositeDomain = compositeDomain;
-            this.componentsIndexes = new int[compositeDomain.getNumberOfComponents()];
+        private CompositeDomainElementIterator(IDomain domain) {
+            this.domain = domain;
+            this.componentsIndexes = new int[domain.getNumberOfComponents()];
         }
 
         @Override
         public boolean hasNext() {
-            return counter != compositeDomain.getCardinality();
+            return counter != domain.getCardinality();
         }
 
         @Override
@@ -57,7 +57,7 @@ public class CompositeDomain extends Domain {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
-            int numberOfComponents = compositeDomain.getNumberOfComponents();
+            int numberOfComponents = domain.getNumberOfComponents();
             // There needs to be at least two components for Cartesian product.
             if (numberOfComponents < 2) {
                 return null;
@@ -66,11 +66,11 @@ public class CompositeDomain extends Domain {
             int[] values = new int[numberOfComponents];
             for (int i = 0; i < numberOfComponents; i++) {
                 // This is only supported for SimpleDomain so getComponentValue(0) is called!
-                values[i] = compositeDomain.getComponent(i).elementForIndex(componentsIndexes[i]).getComponentValue(0);
+                values[i] = domain.getComponent(i).elementForIndex(componentsIndexes[i]).getComponentValue(0);
             }
             // Increment certain index.
             for (int i = numberOfComponents - 1; i >= 0; i--) {
-                IDomain ithComponent = compositeDomain.getComponent(i);
+                IDomain ithComponent = domain.getComponent(i);
                 if (componentsIndexes[i] >= ithComponent.getCardinality() - 1) {
                     componentsIndexes[i] = 0;
                 } else {
