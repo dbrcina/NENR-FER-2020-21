@@ -39,12 +39,14 @@ public class CompositeDomain extends Domain {
     private static class CompositeDomainElementIterator implements Iterator<DomainElement> {
 
         private final IDomain domain;
+        private final int numberOfComponents;
         private final int[] componentsIndexes;
         private int counter;
 
         private CompositeDomainElementIterator(IDomain domain) {
             this.domain = domain;
-            this.componentsIndexes = new int[domain.getNumberOfComponents()];
+            this.numberOfComponents = domain.getNumberOfComponents();
+            this.componentsIndexes = new int[numberOfComponents];
         }
 
         @Override
@@ -57,7 +59,6 @@ public class CompositeDomain extends Domain {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
-            int numberOfComponents = domain.getNumberOfComponents();
             // There needs to be at least two components for Cartesian product.
             if (numberOfComponents < 2) {
                 return null;
