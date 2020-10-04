@@ -1,6 +1,8 @@
 package hr.fer.zemris.fuzzy;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class CompositeDomain extends Domain {
 
@@ -36,22 +38,20 @@ public class CompositeDomain extends Domain {
 
     private static class CompositeDomainElementIterator implements Iterator<DomainElement> {
 
-        private final CompositeDomain compositeDomain;
-        private final Iterator<DomainElement>[] iterators;
+        private final SimpleDomain[] components;
+        private final int[] componentsIndexes;
+        private final int cardinality;
         private int counter;
-        private DomainElement currentElement;
 
         private CompositeDomainElementIterator(CompositeDomain compositeDomain) {
-            this.compositeDomain = compositeDomain;
-            iterators = (Iterator<DomainElement>[]) new Object[compositeDomain.components.length];
-            for (int i = 0; i < iterators.length; i++) {
-                iterators[i] = compositeDomain.components[i].iterator();
-            }
+            this.components = compositeDomain.components;
+            this.componentsIndexes = new int[components.length];
+            this.cardinality = compositeDomain.cardinality;
         }
 
         @Override
         public boolean hasNext() {
-            return counter != compositeDomain.cardinality;
+            return counter != cardinality;
         }
 
         @Override
@@ -61,18 +61,29 @@ public class CompositeDomain extends Domain {
             }
 
             // There needs to be at least two components for Cartesian product.
-            if (compositeDomain.components.length < 2) {
+            if (components.length < 2) {
                 return null;
             }
-
-            if (currentElement == null) {
-                currentElement = iterators[0].next();
+            // Prepare values.
+            int[] values = new int[components.length];
+            for (int i = 0; i < components.length; i++) {
+                // This is only supported for SimpleDomain so getComponentValue(0) is called!
+                values[i] = components[i].elementForIndex(componentsIndexes[i]).getComponentValue(0);
             }
-            List<Integer> values = new ArrayList<>();
-            for (int i = 1; i < compositeDomain.components.length; i++) {
-                SimpleDomain component = compositeDomain.components[i];
-                component.g
+            // Increment certain index.
+            for (int i = components.length - 1; i >= 0; i--) {
+                SimpleDomain ithComponent = components[i];
+                if (componentsIndexes[i] >= ithComponent.getCardinality() - 1) {
+                    componentsIndexes[i] = 0;
+                } else {
+                    componentsIndexes[i]++;
+                    break;
+                }
             }
+            counter++;
+            return DomainElement.of(values);
         }
 
     }
+
+}

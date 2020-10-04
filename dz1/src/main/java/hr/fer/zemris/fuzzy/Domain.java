@@ -31,7 +31,7 @@ public abstract class Domain implements IDomain {
     }
 
     public static IDomain combine(IDomain d1, IDomain d2) {
-        return null;
+        return new CompositeDomain((SimpleDomain) d1, (SimpleDomain) d2);
     }
 
 }
