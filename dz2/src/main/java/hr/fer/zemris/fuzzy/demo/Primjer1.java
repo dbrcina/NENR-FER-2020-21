@@ -50,9 +50,9 @@ public class Primjer1 {
         boolean test1 = Relations.isUTimesURelation(r1);
         System.out.println("r1 je definiran nad UxU? " + test1);
         boolean test2 = Relations.isSymmetric(r1);
-        System.out.println("r1 je simetrična? " + test2);
+        System.out.println("r1 je simetricna? " + test2);
         boolean test3 = Relations.isSymmetric(r2);
-        System.out.println("r2 je simetrična? " + test3);
+        System.out.println("r2 je simetricna? " + test3);
         boolean test4 = Relations.isReflexive(r1);
         System.out.println("r1 je refleksivna? " + test4);
         boolean test5 = Relations.isReflexive(r3);

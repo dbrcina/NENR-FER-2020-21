@@ -1,6 +1,6 @@
 r1 je definiran nad UxU? true
-r1 je simetrična? true
-r2 je simetrična? false
+r1 je simetricna? true
+r2 je simetricna? false
 r1 je refleksivna? true
 r3 je refleksivna? false
 r3 je max-min tranzitivna? false

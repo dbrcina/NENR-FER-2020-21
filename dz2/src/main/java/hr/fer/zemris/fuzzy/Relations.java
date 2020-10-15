@@ -8,10 +8,15 @@ public class Relations {
         IDomain domain = relation.getDomain();
         IDomain u1 = domain.getComponent(0);
         IDomain u2 = domain.getComponent(1);
-        IDomain u1Xu2 = Domain.combine(u1, u2);
-        for (int i = 0; i < domain.getCardinality(); i++) {
-            if (!domain.elementForIndex(i).equals(u1Xu2.elementForIndex(i))) {
-                return false;
+        for (DomainElement e1 : u1) {
+            for (DomainElement e2 : u2) {
+                DomainElement element = DomainElement.of(
+                        e1.getComponentValue(0),
+                        e2.getComponentValue(0)
+                );
+                if (domain.indexOfElement(element) == -1) {
+                    return false;
+                }
             }
         }
         return true;
@@ -19,8 +24,7 @@ public class Relations {
 
     public static boolean isSymmetric(IFuzzySet relation) {
         for (DomainElement e : relation.getDomain()) {
-            // e -> (a,b)
-            // r -> (b,a)
+            // e -> (a,b), r -> (b,a)
             DomainElement r = DomainElement.of(e.getComponentValue(1), e.getComponentValue(0));
             if (relation.getValueAt(e) != relation.getValueAt(r)) {
                 return false;
