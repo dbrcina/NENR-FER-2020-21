@@ -1,4 +1,10 @@
-package hr.fer.zemris.fuzzy;
+package hr.fer.zemris.fuzzy.util;
+
+import hr.fer.zemris.fuzzy.domain.Domain;
+import hr.fer.zemris.fuzzy.domain.DomainElement;
+import hr.fer.zemris.fuzzy.domain.IDomain;
+import hr.fer.zemris.fuzzy.set.IFuzzySet;
+import hr.fer.zemris.fuzzy.set.MutableFuzzySet;
 
 import java.util.Arrays;
 

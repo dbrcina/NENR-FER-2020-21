@@ -1,4 +1,6 @@
-package hr.fer.zemris.fuzzy;
+package hr.fer.zemris.fuzzy.util;
+
+import hr.fer.zemris.fuzzy.function.IIntUnaryFunction;
 
 public class StandardFuzzySets {
 

@@ -1,4 +1,4 @@
-package hr.fer.zemris.fuzzy;
+package hr.fer.zemris.fuzzy.domain;
 
 import java.util.Arrays;
 import java.util.StringJoiner;

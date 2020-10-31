@@ -1,4 +1,4 @@
-package hr.fer.zemris.fuzzy;
+package hr.fer.zemris.fuzzy.domain;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;

@@ -1,4 +1,4 @@
-C:\fuzzy\fuzzyControlSys.exe
+java -jar ../target/fuzzy-logic-1.0.jar
 1
 20
 10

@@ -1,4 +1,8 @@
-package hr.fer.zemris.fuzzy;
+package hr.fer.zemris.fuzzy.set;
+
+import hr.fer.zemris.fuzzy.domain.DomainElement;
+import hr.fer.zemris.fuzzy.domain.IDomain;
+import hr.fer.zemris.fuzzy.function.IIntUnaryFunction;
 
 public class CalculatedFuzzySet implements IFuzzySet {
 

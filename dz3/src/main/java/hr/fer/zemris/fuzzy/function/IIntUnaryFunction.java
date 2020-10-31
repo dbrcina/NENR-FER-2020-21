@@ -1,4 +1,4 @@
-package hr.fer.zemris.fuzzy;
+package hr.fer.zemris.fuzzy.function;
 
 public interface IIntUnaryFunction {
 

@@ -1,4 +1,7 @@
-package hr.fer.zemris.fuzzy;
+package hr.fer.zemris.fuzzy.set;
+
+import hr.fer.zemris.fuzzy.domain.DomainElement;
+import hr.fer.zemris.fuzzy.domain.IDomain;
 
 public class MutableFuzzySet implements IFuzzySet {
 
