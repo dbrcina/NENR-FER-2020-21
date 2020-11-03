@@ -23,6 +23,24 @@ public class MutableFuzzySet implements IFuzzySet {
         return memberships[domain.indexOfElement(element)];
     }
 
+    @Override
+    public IFuzzySet cut(double mi) {
+        MutableFuzzySet result = new MutableFuzzySet(domain);
+        for (int i = 0; i < memberships.length; i++) {
+            result.memberships[i] = Math.min(mi, memberships[i]);
+        }
+        return result;
+    }
+
+    @Override
+    public IFuzzySet scale(double mi) {
+        MutableFuzzySet result = new MutableFuzzySet(domain);
+        for (int i = 0; i < memberships.length; i++) {
+            result.memberships[i] = memberships[i] * mi;
+        }
+        return result;
+    }
+
     public MutableFuzzySet set(DomainElement element, double value) {
         memberships[domain.indexOfElement(element)] = value;
         return this;

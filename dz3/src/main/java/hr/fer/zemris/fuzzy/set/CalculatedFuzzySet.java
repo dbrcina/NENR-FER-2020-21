@@ -24,4 +24,54 @@ public class CalculatedFuzzySet implements IFuzzySet {
         return function.valueAt(domain.indexOfElement(element));
     }
 
+    @Override
+    public IFuzzySet cut(double mi) {
+        return new IFuzzySet() {
+            @Override
+            public IDomain getDomain() {
+                return domain;
+            }
+
+            @Override
+            public double getValueAt(DomainElement element) {
+                return Math.min(mi, function.valueAt(domain.indexOfElement(element)));
+            }
+
+            @Override
+            public IFuzzySet cut(double mi) {
+                return null;
+            }
+
+            @Override
+            public IFuzzySet scale(double mi) {
+                return null;
+            }
+        };
+    }
+
+    @Override
+    public IFuzzySet scale(double mi) {
+        return new IFuzzySet() {
+            @Override
+            public IDomain getDomain() {
+                return domain;
+            }
+
+            @Override
+            public double getValueAt(DomainElement element) {
+                return mi * function.valueAt(domain.indexOfElement(element));
+            }
+
+            @Override
+            public IFuzzySet cut(double mi) {
+                return null;
+            }
+
+            @Override
+            public IFuzzySet scale(double mi) {
+                return null;
+            }
+        };
+    }
+
 }

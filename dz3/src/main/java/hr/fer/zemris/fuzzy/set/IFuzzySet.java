@@ -9,4 +9,8 @@ public interface IFuzzySet {
 
     double getValueAt(DomainElement element);
 
+    IFuzzySet cut(double mi);
+
+    IFuzzySet scale(double mi);
+
 }

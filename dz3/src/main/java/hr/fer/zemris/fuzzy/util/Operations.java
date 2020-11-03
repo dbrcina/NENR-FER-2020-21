@@ -36,6 +36,10 @@ public class Operations {
         return Math::max;
     }
 
+    public static IBinaryFunction product() {
+        return (a, b) -> a * b;
+    }
+
     public static IBinaryFunction hamacherTNorm(double v) {
         return (a, b) -> {
             double ab = a * b;

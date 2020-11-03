@@ -2,9 +2,12 @@ package hr.fer.zemris.fuzzy;
 
 import hr.fer.zemris.fuzzy.defuzzify.COADefuzzifier;
 import hr.fer.zemris.fuzzy.defuzzify.Defuzzifier;
-import hr.fer.zemris.fuzzy.system.AkcelFuzzySystemMin;
+import hr.fer.zemris.fuzzy.implication.Implication;
+import hr.fer.zemris.fuzzy.implication.Mamdani;
+import hr.fer.zemris.fuzzy.system.AkcelFuzzySystem;
 import hr.fer.zemris.fuzzy.system.FuzzySystem;
-import hr.fer.zemris.fuzzy.system.KormiloFuzzySystemMin;
+import hr.fer.zemris.fuzzy.system.KormiloFuzzySystem;
+import hr.fer.zemris.fuzzy.util.Operations;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,8 +22,9 @@ public class SimulatorDemo {
 
         // Stvaranje oba sustava:
         // Grade se baze pravila i sve se inicijalizira
-        FuzzySystem fsAkcel = new AkcelFuzzySystemMin(def);
-        FuzzySystem fsKormilo = new KormiloFuzzySystemMin(def);
+        Implication mamdani = new Mamdani(Operations.zadehAnd(), true);
+        FuzzySystem fsAkcel = new AkcelFuzzySystem(mamdani, Operations.zadehAnd(), Operations.zadehOr(), def);
+        FuzzySystem fsKormilo = new KormiloFuzzySystem(mamdani, Operations.zadehAnd(), Operations.zadehOr(), def);
 
         // Objekt za citanje sa stdin:
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -28,7 +32,7 @@ public class SimulatorDemo {
         // Glavna petla:
         while (true) {
             String line = br.readLine();
-            if (line.equals("KRAJ")) {
+            if (line.toUpperCase().equals("KRAJ")) {
                 br.close();
                 break;
             }
