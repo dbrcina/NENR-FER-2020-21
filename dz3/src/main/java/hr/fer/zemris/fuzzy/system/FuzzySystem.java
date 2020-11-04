@@ -9,7 +9,7 @@ import hr.fer.zemris.fuzzy.set.IFuzzySet;
 import hr.fer.zemris.fuzzy.util.Operations;
 
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public abstract class FuzzySystem {
@@ -19,7 +19,7 @@ public abstract class FuzzySystem {
     private final IBinaryFunction sNormFunction;
     private final Defuzzifier defuzzifier;
 
-    private final Map<IFuzzySet[], IFuzzySet> rules = new HashMap<>();
+    private final Map<IFuzzySet[], IFuzzySet> rules = new LinkedHashMap<>();
 
     protected FuzzySystem(
             Implication implication,
@@ -42,26 +42,33 @@ public abstract class FuzzySystem {
     }
 
     public double conclude(double... values) {
-        IFuzzySet[] consequences = new IFuzzySet[rules.size()];
-        int index = 0;
-        for (Map.Entry<IFuzzySet[], IFuzzySet> rule : rules.entrySet()) {
-            IFuzzySet[] antecedent = rule.getKey();
-            IFuzzySet consequence = rule.getValue();
-            double mi = 1.0;
-            for (int i = 0; i < antecedent.length; i++) {
-                if (antecedent[i] != null) {
-                    mi = tNormFunction.valueAt(values[i], antecedent[i].getValueAt(DomainElement.of((int) values[i])));
-                }
-            }
-            consequences[index++] = ((Mamdani) implication).isMin() ? consequence.cut(mi) : consequence.scale(mi);
-        }
+        return defuzzifier.defuzzify(fuzzifiedConclusion(values));
+    }
+
+    public IFuzzySet fuzzifiedConclusion(double... values) {
+        // Apply rules.
+        IFuzzySet[] consequences = rules.entrySet().stream()
+                .map(rule -> applyRule(rule, values))
+                .toArray(IFuzzySet[]::new);
         // Depending on local/global semantics, generate result.
-        IFuzzySet union = consequences[0];
+        IFuzzySet result = consequences[0];
         for (int i = 1; i < consequences.length; i++) {
-            union = Operations.binaryOperation(union, consequences[1],
+            result = Operations.binaryOperation(result, consequences[i],
                     implication.hasLocalSemantics() ? sNormFunction : tNormFunction);
         }
-        return defuzzifier.defuzzify(union);
+        return result;
+    }
+
+    public IFuzzySet applyRule(Map.Entry<IFuzzySet[], IFuzzySet> rule, double... values) {
+        IFuzzySet[] antecedent = rule.getKey();
+        IFuzzySet consequence = rule.getValue();
+        double mi = 1.0;
+        for (int i = 0; i < antecedent.length; i++) {
+            if (antecedent[i] != null) {
+                mi = tNormFunction.valueAt(mi, antecedent[i].getValueAt(DomainElement.of((int) values[i])));
+            }
+        }
+        return ((Mamdani) implication).isMin() ? consequence.cut(mi) : consequence.scale(mi);
     }
 
     protected abstract void init();

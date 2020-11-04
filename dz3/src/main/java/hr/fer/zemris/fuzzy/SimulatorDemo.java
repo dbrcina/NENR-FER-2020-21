@@ -2,6 +2,7 @@ package hr.fer.zemris.fuzzy;
 
 import hr.fer.zemris.fuzzy.defuzzify.COADefuzzifier;
 import hr.fer.zemris.fuzzy.defuzzify.Defuzzifier;
+import hr.fer.zemris.fuzzy.function.IBinaryFunction;
 import hr.fer.zemris.fuzzy.implication.Implication;
 import hr.fer.zemris.fuzzy.implication.Mamdani;
 import hr.fer.zemris.fuzzy.system.AkcelFuzzySystem;
@@ -12,39 +13,41 @@ import hr.fer.zemris.fuzzy.util.Operations;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
+import java.util.Scanner;
 
 public class SimulatorDemo {
 
     public static void main(String[] args) throws IOException {
-        // Biramo način dekodiranja neizrazitosti:
+        BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+
+        Implication implication = new Mamdani(true);
+        IBinaryFunction tNormFunction = Operations.zadehAnd();
+        IBinaryFunction sNormFunction = Operations.zadehOr();
         Defuzzifier def = new COADefuzzifier();
+        FuzzySystem fsAkcel = new AkcelFuzzySystem(implication, tNormFunction, sNormFunction, def);
+        FuzzySystem fsKormilo = new KormiloFuzzySystem(implication, tNormFunction, sNormFunction, def);
 
-        // Stvaranje oba sustava:
-        // Grade se baze pravila i sve se inicijalizira
-        Implication mamdani = new Mamdani(Operations.zadehAnd(), true);
-        FuzzySystem fsAkcel = new AkcelFuzzySystem(mamdani, Operations.zadehAnd(), Operations.zadehOr(), def);
-        FuzzySystem fsKormilo = new KormiloFuzzySystem(mamdani, Operations.zadehAnd(), Operations.zadehOr(), def);
+        int L = 0, D = 0, LK = 0, DK = 0, V = 0, S = 0;
+        String line;
 
-        // Objekt za citanje sa stdin:
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-        // Glavna petla:
         while (true) {
-            String line = br.readLine();
-            if (line.toUpperCase().equals("KRAJ")) {
-                br.close();
-                break;
+            if ((line = input.readLine()) != null) {
+                if (line.charAt(0) == 'K')
+                    break;
+                Scanner s = new Scanner(line);
+                L = s.nextInt();
+                D = s.nextInt();
+                LK = s.nextInt();
+                DK = s.nextInt();
+                V = s.nextInt();
+                S = s.nextInt();
             }
-            double[] values = Arrays.stream(line.split("\\s+"))
-                    .mapToDouble(Double::parseDouble)
-                    .toArray();
-            double a = fsAkcel.conclude(values);
-            double k = fsKormilo.conclude(values);
+            double[] values = {L, D, LK, DK, V, S};
+            int a = (int) fsAkcel.conclude(values);
+            int k = (int) fsKormilo.conclude(values);
             System.out.println(a + " " + k);
             System.out.flush();
         }
-
     }
 
 }
