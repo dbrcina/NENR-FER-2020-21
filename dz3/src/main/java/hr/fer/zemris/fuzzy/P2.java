@@ -6,6 +6,7 @@ import hr.fer.zemris.fuzzy.function.IBinaryFunction;
 import hr.fer.zemris.fuzzy.implication.Implication;
 import hr.fer.zemris.fuzzy.implication.Mamdani;
 import hr.fer.zemris.fuzzy.set.IFuzzySet;
+import hr.fer.zemris.fuzzy.system.AkcelFuzzySystem;
 import hr.fer.zemris.fuzzy.system.FuzzySystem;
 import hr.fer.zemris.fuzzy.system.KormiloFuzzySystem;
 import hr.fer.zemris.fuzzy.system.Rule;
@@ -16,7 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-public class P1 {
+public class P2 {
 
     public static void main(String[] args) {
         // Biramo način dekodiranja neizrazitosti:
@@ -27,31 +28,28 @@ public class P1 {
         Implication implication = new Mamdani(true);
         IBinaryFunction tNorm = Operations.zadehAnd();
         IBinaryFunction sNorm = Operations.zadehOr();
-        FuzzySystem fsKormilo = new KormiloFuzzySystem(implication, tNorm, sNorm, def);
-        List<Rule> rules = fsKormilo.getRules();
-        System.out.println("Baza pravila za kormilo:");
+        FuzzySystem fs = new AkcelFuzzySystem(implication, tNorm, sNorm, def);
+        List<Rule> rules = fs.getRules();
+        System.out.println("Baza pravila za akceleraciju:");
         for (int i = 0; i < rules.size(); i++) {
             System.out.println((i + 1) + ". " + rules.get(i).getDescription());
         }
 
         Scanner sc = new Scanner(System.in);
         while (true) {
-            System.out.print("Izaberi pravilo ('kraj' za kraj): ");
+            System.out.print("Unesi('kraj' za kraj) L D LK DK V S: ");
             String line = sc.nextLine();
             if (line.toLowerCase().equals("kraj")) {
                 System.out.println("Izlazim...");
                 break;
             }
-            int ruleNumber = Integer.parseInt(line);
-            Rule rule = rules.get(ruleNumber - 1);
-            System.out.print("Unesi L D LK DK V S: ");
-            double[] values = Arrays.stream(sc.nextLine().split("\\s+"))
+            double[] values = Arrays.stream(line.split("\\s+"))
                     .mapToDouble(Double::parseDouble)
                     .toArray();
-            IFuzzySet result = rule.apply(values, implication, tNorm);
-            int a = (int) def.defuzzify(result);
+            IFuzzySet result = fs.fuzzifiedConclusion(values);
+            int r = (int) def.defuzzify(result);
             Debug.print(result, "Rezulat");
-            System.out.println(a);
+            System.out.println(r);
         }
         sc.close();
     }

@@ -9,22 +9,25 @@ public class KormiloFuzzySystem extends FuzzySystem {
 
     public KormiloFuzzySystem(
             Implication implication,
-            IBinaryFunction tNormFunction,
-            IBinaryFunction sNormFunction,
+            IBinaryFunction tNorm,
+            IBinaryFunction sNorm,
             Defuzzifier defuzzifier) {
-        super(implication, tNormFunction, sNormFunction, defuzzifier);
+        super(implication, tNorm, sNorm, defuzzifier);
     }
 
     @Override
     protected void init() {
-        addRule(
+        Rule r1 = new Rule(
                 new IFuzzySet[]{BoatConstants.CLOSE_TO_SHORE, null, BoatConstants.CLOSE_TO_SHORE, null, null, null},
-                BoatConstants.TURN_RIGHT
+                BoatConstants.TURN_RIGHT,
+                "AKO je L CLOSE_TO_SHORE I LK CLOSE_TO_SHORE ONDA kormilo TURN_RIGHT"
         );
-        addRule(
+        Rule r2 = new Rule(
                 new IFuzzySet[]{null, BoatConstants.CLOSE_TO_SHORE, null, BoatConstants.CLOSE_TO_SHORE, null, null},
-                BoatConstants.TURN_LEFT
+                BoatConstants.TURN_LEFT,
+                "AKO je D CLOSE_TO_SHORE I DK CLOSE_TO_SHORE ONDA kormilo TURN_LEFT"
         );
+        addRules(r1, r2);
     }
 
 }

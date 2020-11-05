@@ -20,8 +20,8 @@ public class SimulatorDemo {
     public static void main(String[] args) throws IOException {
         BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 
-        Implication implication = new Mamdani(true);
-        IBinaryFunction tNormFunction = Operations.zadehAnd();
+        Implication implication = new Mamdani(false);
+        IBinaryFunction tNormFunction = Operations.product();
         IBinaryFunction sNormFunction = Operations.zadehOr();
         Defuzzifier def = new COADefuzzifier();
         FuzzySystem fsAkcel = new AkcelFuzzySystem(implication, tNormFunction, sNormFunction, def);
