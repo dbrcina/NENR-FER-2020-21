@@ -16,8 +16,8 @@ public interface Selection<S extends Solution<?>> {
      * Performs selection operation on the provided {@code population}.
      *
      * @param population population
-     * @return selected solution(s).
+     * @return selected solution.
      */
-    List<S> select(List<S> population);
+    S select(List<S> population);
 
 }

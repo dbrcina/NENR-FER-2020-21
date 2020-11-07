@@ -23,7 +23,7 @@ public class KTournamentSelection<S extends Solution<?>> implements Selection<S>
     }
 
     @Override
-    public List<S> select(List<S> population) {
+    public S select(List<S> population) {
         Set<Integer> usedIndexes = new HashSet<>();
         List<S> selected = new ArrayList<>();
         while (true) {
@@ -33,8 +33,7 @@ public class KTournamentSelection<S extends Solution<?>> implements Selection<S>
             usedIndexes.add(index);
             if (selected.size() == k) break;
         }
-        selected.sort(Comparator.naturalOrder());
-        return selected;
+        return Collections.min(selected);
     }
 
 }

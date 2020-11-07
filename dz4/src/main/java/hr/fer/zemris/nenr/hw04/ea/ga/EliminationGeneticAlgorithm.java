@@ -73,13 +73,25 @@ public class EliminationGeneticAlgorithm<S extends Solution<?>> implements Evolu
             }
 
             // Generate a new child.
-            List<S> selected = selection.select(population);
-            S child = crossover.crossover(selected.get(0), selected.get(1));
+            S p1 = selection.select(population);
+            S p2 = selection.select(population);
+            S child = crossover.crossover(p1, p2);
             child = mutation.mutate(child);
             child.setFitness(fitnessFunction.calculateFitness(child));
 
-            // Replace the worst selected one with the child.
-            population.set(population.indexOf(selected.get(selected.size() - 1)), child);
+            // Find the worst solution from the population and possibly replace it with a new child.
+            int worstIndex = -1;
+            double worstFitness = child.getFitness();
+            for (int i = 0; i < populationSize; i++) {
+                S solution = population.get(i);
+                if (solution.getFitness() < worstFitness) {
+                    worstIndex = i;
+                    worstFitness = solution.getFitness();
+                }
+            }
+            if (worstIndex != -1) {
+                population.set(worstIndex, child);
+            }
         }
 
         System.out.println("Algorithm finished!");

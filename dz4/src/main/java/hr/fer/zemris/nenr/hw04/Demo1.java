@@ -36,7 +36,7 @@ public class Demo1 {
         int unitSize = 5;
         double minValue = -4;
         double maxValue = 4;
-        double sigma = 0.01;
+        double sigma = 0.001;
         PopulationInitializer<Solution<Double>> initializer =
                 new RandomDoublePopulationInitializer(unitSize, minValue, maxValue);
         Selection<Solution<Double>> selection = new KTournamentSelection<>(random, 3);

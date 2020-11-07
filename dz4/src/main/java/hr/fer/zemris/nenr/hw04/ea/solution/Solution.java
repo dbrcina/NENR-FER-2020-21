@@ -33,7 +33,7 @@ public abstract class Solution<G> implements Comparable<Solution<G>> {
     }
 
     /**
-     * @return <code>true</code> if solution has been evaluated.
+     * @return {@code true} if solution has been evaluated.
      */
     public boolean isEvaluated() {
         return evaluated;

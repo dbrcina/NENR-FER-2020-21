@@ -2,8 +2,6 @@ package hr.fer.zemris.nenr.hw04.ea.fitness;
 
 import hr.fer.zemris.nenr.hw04.ea.solution.Solution;
 
-import java.util.Arrays;
-
 /**
  * An implementation of {@link FitnessFunction} interface.
  *
