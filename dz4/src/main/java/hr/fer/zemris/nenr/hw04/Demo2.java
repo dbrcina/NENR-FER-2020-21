@@ -29,7 +29,7 @@ public class Demo2 {
 
     public static void main(String[] args) throws IOException {
         String file = "src/main/resources/zad4-dataset1.txt";
-        int populationSize = 50;
+        int populationSize = 100;
         int maxGenerations = 100_000;
         double epsilon = -1e-6;
         Random random = new Random();
