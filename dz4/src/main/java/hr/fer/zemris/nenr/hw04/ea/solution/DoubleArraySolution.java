@@ -39,14 +39,12 @@ public class DoubleArraySolution extends Solution<Double> {
 
     @Override
     public int compareTo(Solution<Double> o) {
-        return Double.compare(getFitness(), o.getFitness());
+        return Double.compare(o.getFitness(), getFitness());
     }
 
     @Override
     public String toString() {
-        return "DoubleArraySolution{" +
-                "genes=" + Arrays.toString(genes) +
-                '}';
+        return Arrays.toString(genes);
     }
 
 }

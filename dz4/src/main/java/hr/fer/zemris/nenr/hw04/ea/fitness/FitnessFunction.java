@@ -1,4 +1,4 @@
-package hr.fer.zemris.nenr.hw04.fitness;
+package hr.fer.zemris.nenr.hw04.ea.fitness;
 
 import hr.fer.zemris.nenr.hw04.ea.solution.Solution;
 

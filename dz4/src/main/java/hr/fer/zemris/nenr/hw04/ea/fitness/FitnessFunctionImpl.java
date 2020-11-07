@@ -1,4 +1,4 @@
-package hr.fer.zemris.nenr.hw04.fitness;
+package hr.fer.zemris.nenr.hw04.ea.fitness;
 
 import hr.fer.zemris.nenr.hw04.ea.solution.Solution;
 
@@ -15,8 +15,8 @@ public class FitnessFunctionImpl implements FitnessFunction<Solution<Double>> {
     private final double[] y;
 
     public FitnessFunctionImpl(double[][] x, double[] y) {
-        this.x = Arrays.stream(x).map(double[]::clone).toArray(double[][]::new);
-        this.y = Arrays.copyOf(y, y.length);
+        this.x = x;
+        this.y = y;
     }
 
     @Override
@@ -32,12 +32,12 @@ public class FitnessFunctionImpl implements FitnessFunction<Solution<Double>> {
             double actual = f(x[i][0], x[i][1], beta0, beta1, beta2, beta3, beta4);
             sum += Math.pow(expected - actual, 2);
         }
-        return sum / x.length;
+        return -sum / y.length;
     }
 
     private double f(double x1, double x2, double... betas) {
         return Math.sin(betas[0] + betas[1] * x1)
-                + betas[2] * Math.cos(x1 * (betas[3] * x2))
+                + betas[2] * Math.cos(x1 * (betas[3] + x2))
                 * 1 / (1 + Math.exp(Math.pow(x1 - betas[4], 2)));
     }
 
