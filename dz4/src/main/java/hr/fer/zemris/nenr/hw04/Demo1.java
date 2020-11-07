@@ -38,7 +38,7 @@ public class Demo1 {
         double maxValue = 4;
         double sigma = 0.001;
         PopulationInitializer<Solution<Double>> initializer =
-                new RandomDoublePopulationInitializer(unitSize, minValue, maxValue);
+                new RandomDoublePopulationInitializer(random, unitSize, minValue, maxValue);
         Selection<Solution<Double>> selection = new KTournamentSelection<>(random, 3);
         Crossover<Solution<Double>> crossover = new DiscreteDoubleUniformRecombination(random);
         Mutation<Solution<Double>> mutation = new GaussMutation(random, sigma, minValue, maxValue);

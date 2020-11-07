@@ -6,7 +6,6 @@ import hr.fer.zemris.nenr.hw04.ea.crossover.DiscreteDoubleUniformRecombination;
 import hr.fer.zemris.nenr.hw04.ea.fitness.FitnessFunction;
 import hr.fer.zemris.nenr.hw04.ea.fitness.FitnessFunctionImpl;
 import hr.fer.zemris.nenr.hw04.ea.ga.EliminationGeneticAlgorithm;
-import hr.fer.zemris.nenr.hw04.ea.ga.GenerationGeneticAlgorithm;
 import hr.fer.zemris.nenr.hw04.ea.initializer.PopulationInitializer;
 import hr.fer.zemris.nenr.hw04.ea.initializer.RandomDoublePopulationInitializer;
 import hr.fer.zemris.nenr.hw04.ea.mutation.GaussMutation;
@@ -38,7 +37,7 @@ public class Demo2 {
         double maxValue = 4;
         double sigma = 0.001;
         PopulationInitializer<Solution<Double>> initializer =
-                new RandomDoublePopulationInitializer(unitSize, minValue, maxValue);
+                new RandomDoublePopulationInitializer(random, unitSize, minValue, maxValue);
         Selection<Solution<Double>> selection = new KTournamentSelection<>(random, 3);
         Crossover<Solution<Double>> crossover = new DiscreteDoubleUniformRecombination(random);
         Mutation<Solution<Double>> mutation = new GaussMutation(random, sigma, minValue, maxValue);

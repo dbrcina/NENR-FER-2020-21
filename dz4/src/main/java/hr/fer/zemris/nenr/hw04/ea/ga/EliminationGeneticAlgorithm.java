@@ -60,7 +60,7 @@ public class EliminationGeneticAlgorithm<S extends Solution<?>> implements Evolu
         for (int generation = 0; generation < maxGenerations; generation++) {
 
             // Find the best in current generation.
-            S currentBest = Collections.max(population, Comparator.naturalOrder());
+            S currentBest = Collections.max(population, Comparator.comparingDouble(Solution::getFitness));
             if (bestSolution == null || currentBest.getFitness() > bestSolution.getFitness()) {
                 bestSolution = currentBest;
                 System.out.printf(

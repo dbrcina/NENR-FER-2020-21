@@ -6,7 +6,7 @@ package hr.fer.zemris.nenr.hw04.ea.solution;
  * @param <G> gene type.
  * @author dbrcina
  */
-public abstract class Solution<G> implements Comparable<Solution<G>> {
+public abstract class Solution<G> {
 
     private double fitness;
     private boolean evaluated;

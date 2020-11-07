@@ -12,18 +12,19 @@ import java.util.Random;
  */
 public class RandomDoublePopulationInitializer implements PopulationInitializer<Solution<Double>> {
 
+    private final Random random;
     private final int unitSize;
     private final double minValue;
     private final double maxValue;
-    private final Random random = new Random();
 
-    public RandomDoublePopulationInitializer(int unitSize, double minValue, double maxValue) {
+    public RandomDoublePopulationInitializer(Random random, int unitSize, double minValue, double maxValue) {
         if (unitSize <= 0) {
             throw new IllegalArgumentException("Unit size is <= 0!");
         }
         if (minValue > maxValue) {
             throw new IllegalArgumentException("MinValue > MaxValue!");
         }
+        this.random = random;
         this.unitSize = unitSize;
         this.minValue = minValue;
         this.maxValue = maxValue;

@@ -33,7 +33,7 @@ public class KTournamentSelection<S extends Solution<?>> implements Selection<S>
             usedIndexes.add(index);
             if (selected.size() == k) break;
         }
-        return Collections.min(selected);
+        return Collections.max(population, Comparator.comparingDouble(Solution::getFitness));
     }
 
 }

@@ -55,7 +55,6 @@ public class GenerationGeneticAlgorithm<S extends Solution<?>> implements Evolut
     @Override
     public S run() {
         S bestSolution = null;
-        boolean bestSolutionUpdated = false;
 
         System.out.println("Initializing the population...");
         List<S> population = initializer.generatePopulation(populationSize);
@@ -70,7 +69,6 @@ public class GenerationGeneticAlgorithm<S extends Solution<?>> implements Evolut
                     solution.setFitness(fitnessFunction.calculateFitness(solution));
                 }
                 if (bestSolution == null || solution.getFitness() > bestSolution.getFitness()) {
-                    bestSolutionUpdated = true;
                     bestSolution = solution;
                     System.out.printf(
                             "Generation %6d: found new best solution with fitness %e and values %s%n",
@@ -89,7 +87,7 @@ public class GenerationGeneticAlgorithm<S extends Solution<?>> implements Evolut
             if (useElitism) {
                 // Insert ELITISM_SOLUTIONS best solutions.
                 newPopulation.addAll(population.stream()
-                        .sorted()
+                        .sorted((s1, s2) -> Double.compare(s2.getFitness(), s1.getFitness()))
                         .limit(ELITISM_SOLUTIONS)
                         .collect(Collectors.toList()));
             }
