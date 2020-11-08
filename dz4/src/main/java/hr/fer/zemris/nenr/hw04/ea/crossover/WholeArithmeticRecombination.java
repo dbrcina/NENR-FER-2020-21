@@ -4,7 +4,7 @@ import hr.fer.zemris.nenr.hw04.ea.solution.DoubleArraySolution;
 import hr.fer.zemris.nenr.hw04.ea.solution.Solution;
 
 /**
- * An implementation of {@link Crossover} interface which provides whole arithmetic recombination of genes for
+ * An implementation of {@link Crossover} interface which provides <i>whole arithmetic recombination</i> of genes for
  * solutions that are modeled through doubles.
  *
  * @author dbrcina

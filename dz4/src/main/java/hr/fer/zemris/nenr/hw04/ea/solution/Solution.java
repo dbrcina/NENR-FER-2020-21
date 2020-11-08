@@ -73,7 +73,9 @@ public abstract class Solution<G> {
      */
     public Solution<G> copy() {
         Solution<G> copied = copyInternal();
-        copied.setFitness(getFitness());
+        if (isEvaluated()) {
+            copied.setFitness(getFitness());
+        }
         return copied;
     }
 

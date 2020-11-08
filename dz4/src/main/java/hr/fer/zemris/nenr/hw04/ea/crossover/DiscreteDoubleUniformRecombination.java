@@ -6,7 +6,7 @@ import hr.fer.zemris.nenr.hw04.ea.solution.Solution;
 import java.util.Random;
 
 /**
- * An implementation of {@link Crossover} interface which provides discrete uniform recombination of genes for
+ * An implementation of {@link Crossover} interface which provides <i>discrete uniform recombination</i> of genes for
  * solutions that are modeled through doubles.
  *
  * @author dbrcina
