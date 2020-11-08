@@ -15,10 +15,14 @@ public class BLXACrossover implements Crossover<Solution<Double>> {
 
     private final Random random;
     private final double alpha;
+    private final double minValue;
+    private final double maxValue;
 
-    public BLXACrossover(Random random, double alpha) {
+    public BLXACrossover(Random random, double alpha, double minValue, double maxValue) {
         this.random = random;
         this.alpha = alpha;
+        this.minValue = minValue;
+        this.maxValue = maxValue;
     }
 
     @Override
@@ -29,9 +33,9 @@ public class BLXACrossover implements Crossover<Solution<Double>> {
             double ci2 = parent2.getGeneAt(i);
             double ciMin = Math.min(ci1, ci2);
             double ciMax = Math.max(ci1, ci2);
-            double interval = ciMax - ciMax;
-            double lb = ciMin - interval * alpha;
-            double ub = ciMax + interval * alpha;
+            double interval = ciMax - ciMin;
+            double lb = Math.max(minValue, ciMin - interval * alpha);
+            double ub = Math.min(maxValue, ciMax + interval * alpha);
             child[i] = lb + random.nextDouble() * (ub - lb);
         }
         return new DoubleArraySolution(child);

@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
  */
 public class GenerationGeneticAlgorithm<S extends Solution<?>> implements EvolutionaryAlgorithm<S> {
 
-    private final int ELITISM_SOLUTIONS = 4;
+    private final int ELITISM_SOLUTIONS = 1;
 
     private final int populationSize;
     private final int maxGenerations;

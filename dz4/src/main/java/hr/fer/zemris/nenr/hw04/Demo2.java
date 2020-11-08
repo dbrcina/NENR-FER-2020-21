@@ -1,6 +1,7 @@
 package hr.fer.zemris.nenr.hw04;
 
 import hr.fer.zemris.nenr.hw04.ea.EvolutionaryAlgorithm;
+import hr.fer.zemris.nenr.hw04.ea.crossover.BLXACrossover;
 import hr.fer.zemris.nenr.hw04.ea.crossover.Crossover;
 import hr.fer.zemris.nenr.hw04.ea.crossover.DiscreteDoubleUniformRecombination;
 import hr.fer.zemris.nenr.hw04.ea.fitness.FitnessFunction;
@@ -27,7 +28,7 @@ import java.util.Random;
 public class Demo2 {
 
     public static void main(String[] args) throws IOException {
-        String file = "src/main/resources/zad4-dataset1.txt";
+        String file = "src/main/resources/zad4-dataset2.txt";
         int populationSize = 100;
         int maxGenerations = 100_000;
         double epsilon = -1e-6;
@@ -39,7 +40,7 @@ public class Demo2 {
         PopulationInitializer<Solution<Double>> initializer =
                 new RandomDoublePopulationInitializer(random, unitSize, minValue, maxValue);
         Selection<Solution<Double>> selection = new KTournamentSelection<>(random, 3);
-        Crossover<Solution<Double>> crossover = new DiscreteDoubleUniformRecombination(random);
+        Crossover<Solution<Double>> crossover = new BLXACrossover(random, 0.5, minValue, maxValue);
         Mutation<Solution<Double>> mutation = new GaussMutation(random, sigma, minValue, maxValue);
         FitnessFunction<Solution<Double>> fitnessFunction = parse(file);
 
