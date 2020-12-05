@@ -258,11 +258,11 @@ public class NeuralNetwork {
             RealMatrix outputsLayerK1 = (weightsLayerK.multiply(outputsLayerK)).add(biasesLayerK);
             double[] weightedSums = outputsLayerK1.getColumn(0);
             boolean isOutputLayer = k == weightsPerLayer.length - 1;
+            if (isOutputLayer) {
+                outputAFunction = new Softmax(weightedSums);
+            }
             for (int i = 0; i < weightedSums.length; i++) {
                 double weightedSum = weightedSums[i];
-                if (isOutputLayer) {
-                    outputAFunction = new Softmax(weightedSums);
-                }
                 // Differentiate hidden layers from output layer!!!
                 outputsPerLayer[k + 1].setEntry(i, 0, isOutputLayer ?
                         outputAFunction.value(weightedSum) : aFunction.value(weightedSum));
