@@ -287,8 +287,6 @@ public class NeuralNetwork {
         // Randomize weights and biases.
         randomizeMatrices();
 
-        // Prepare batches based on the learning type.
-        Collection<Collection<Sample>> batches = prepareBatches();
         int numberOfSamples = dataset.numberOfSamples();
 
         // Start epochs.
@@ -309,7 +307,8 @@ public class NeuralNetwork {
 
             // Variable for accumulating the error.
             double error = 0.0;
-
+            // Prepare batches based on the learning type.
+            Collection<Collection<Sample>> batches = prepareBatches();
             /* Go through every batch */
             for (Collection<Sample> batch : batches) {
                 if (stop) break;

@@ -1,27 +1,31 @@
-package hr.fer.zemris.bscthesis.demo;
+package hr.fer.zemris.nenr.hw05;
 
 import hr.fer.zemris.bscthesis.classes.ClassType;
+import org.apache.commons.math3.linear.RealVector;
+import org.apache.commons.math3.util.Pair;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.List;
-import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class TrainingFrame extends JFrame {
+
+    private static final int N_FEATURES = 30;
 
     private final List<ClassType> classTypes = new ArrayList<>(ClassType.allClassTypes());
     private ClassType currentClassType = classTypes.get(0);
 
-    private final Collection<PointsClassTypePair> pointsHistory = new ArrayList<>();
-    private final Collection<Point> pointsForDrawing = new ArrayList<>();
+    private final List<Pair<RealVector[], ClassType>> pointsHistory = new ArrayList<>();
+    private final List<Point> pointsForDrawing = new ArrayList<>();
 
     private final JTextField fldClassType = new JTextField(10);
     private final JButton btnSave = new JButton("Save");
@@ -61,7 +65,7 @@ public class TrainingFrame extends JFrame {
             @Override
             public void mouseReleased(MouseEvent e) {
                 if (SwingUtilities.isLeftMouseButton(e)) {
-                    pointsHistory.add(new PointsClassTypePair(new ArrayList<>(pointsForDrawing), currentClassType));
+                    pointsHistory.add(new Pair<>(Util.divideIntoCoordinates(pointsForDrawing), currentClassType));
                     pointsForDrawing.clear();
                 }
             }
@@ -85,56 +89,35 @@ public class TrainingFrame extends JFrame {
         fldClassType.setEditable(false);
         fldClassType.setBorder(new EmptyBorder(0, 0, 0, 0));
         btnSave.setFocusPainted(false);
-        prepareData();
+        prepareSaveBtn();
         footerPanel.add(lblClassType);
         footerPanel.add(fldClassType);
         footerPanel.add(btnSave);
         return footerPanel;
     }
 
-    private void prepareData() {
+    private void prepareSaveBtn() {
         btnSave.addActionListener(e -> {
-            // Logika...
-            System.out.println("Logika");
-        });
-    }
-
-    private static class CanvasComponent extends JComponent {
-        private final Supplier<Collection<Point>> pointsSupplier;
-
-        private CanvasComponent(Supplier<Collection<Point>> pointsSupplier, int width, int height) {
-            this.pointsSupplier = pointsSupplier;
-            setBorder(new TitledBorder(new EtchedBorder(), "Sample space"));
-            setPreferredSize(new Dimension(width, height));
-        }
-
-        @Override
-        protected void paintComponent(Graphics g) {
-            g.clearRect(0, 0, getWidth(), getHeight());
-
-            Collection<Point> points = pointsSupplier.get();
-            if (points.isEmpty()) return;
-
-            int[] xPoints = new int[points.size()];
-            int[] yPoints = new int[points.size()];
-            int index = 0;
-            for (Point point : points) {
-                xPoints[index] = point.x;
-                yPoints[index] = point.y;
-                index++;
+            PrintWriter wr = null;
+            try {
+                wr = new PrintWriter("samples.txt");
+            } catch (FileNotFoundException fileNotFoundException) {
+                fileNotFoundException.printStackTrace();
             }
-            g.drawPolyline(xPoints, yPoints, points.size());
-        }
-    }
-
-    private static class PointsClassTypePair {
-        private final Collection<Point> points;
-        private final ClassType classType;
-
-        private PointsClassTypePair(Collection<Point> points, ClassType classType) {
-            this.points = points;
-            this.classType = classType;
-        }
+            for (Pair<RealVector[], ClassType> pair : pointsHistory) {
+                RealVector sample = Util.prepareSample(pair.getFirst(), N_FEATURES);
+                wr.write(Arrays.stream(sample.toArray())
+                        .mapToObj(String::valueOf)
+                        .collect(Collectors.joining(","))
+                );
+                wr.write(" ");
+                wr.println(Arrays.stream(pair.getSecond().getDesiredOutputs())
+                        .mapToObj(String::valueOf)
+                        .collect(Collectors.joining(","))
+                );
+            }
+            wr.flush();
+        });
     }
 
     public static void main(String[] args) {
