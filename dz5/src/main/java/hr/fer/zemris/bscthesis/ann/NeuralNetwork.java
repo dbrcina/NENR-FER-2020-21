@@ -100,6 +100,7 @@ public class NeuralNetwork {
      * @param layers    input + hidden + output layers.
      * @param aFunction activation function.
      * @param dataset   dataset.
+     *
      * @throws NullPointerException     if <code>null</code> value is provided.
      * @throws IllegalArgumentException if definition of <code>layers</code> is invalid.
      */
@@ -118,6 +119,7 @@ public class NeuralNetwork {
      * Setter for layers.
      *
      * @param layers input + hidden + output layers.
+     *
      * @throws NullPointerException     if <code>null</code> value is provided.
      * @throws IllegalArgumentException if definition of <code>layers</code> is invalid.
      */
@@ -138,6 +140,7 @@ public class NeuralNetwork {
      * Setter for activation function.
      *
      * @param aFunction activation function.
+     *
      * @throws NullPointerException if <code>null</code> value is provided.
      */
     public void setAFunction(ActivationFunction aFunction) {
@@ -149,6 +152,7 @@ public class NeuralNetwork {
      * Setter for dataset.
      *
      * @param dataset dataset.
+     *
      * @throws NullPointerException if <code>null</code> value is provided.
      */
     public void setDataset(Dataset dataset) {
@@ -160,6 +164,7 @@ public class NeuralNetwork {
      * Setter for learning type. Default value is {@link LearningType#ONLINE}.
      *
      * @param learningType learning type.
+     *
      * @throws NullPointerException if <code>null</code> value is provided.
      */
     public void setLearningType(LearningType learningType) {
@@ -233,7 +238,9 @@ public class NeuralNetwork {
      * Feed forwards provided <code>inputs</code> and returns outputs as an array.
      *
      * @param inputs inputs.
+     *
      * @return results.
+     *
      * @throws NullPointerException     if <code>null</code> value is provided.
      * @throws IllegalArgumentException if number of input elements doesn't fit.
      */
@@ -434,20 +441,10 @@ public class NeuralNetwork {
     /* ---- UPDATE WEIGHTS AND BIASES AFTER ONE SAMPLE ---- */
     private void updateWeightsBiases(double eta) {
         for (int k = 0; k < weightsUpdatesPerLayer.length; k++) {
-            RealMatrix updatesWeightsLayerK = weightsUpdatesPerLayer[k];
-            RealMatrix updatesBiasesLayerK = biasesUpdatesPerLayer[k];
-            RealVector outputsLayerK = outputsPerLayer[k].getColumnVector(0);
-            RealVector deltasLayerK1 = deltasPerLayer[k].getColumnVector(0);
-            for (int i = 0; i < updatesWeightsLayerK.getRowDimension(); i++) {
-                for (int j = 0; j < updatesWeightsLayerK.getColumnDimension(); j++) {
-                    double weight = updatesWeightsLayerK.getEntry(i, j);
-                    weight += eta * outputsLayerK.getEntry(j) * deltasLayerK1.getEntry(i);
-                    updatesWeightsLayerK.setEntry(i, j, weight);
-                }
-                double bias = updatesBiasesLayerK.getEntry(i, 0);
-                bias += eta * deltasLayerK1.getEntry(i);
-                updatesBiasesLayerK.setEntry(i, 0, bias);
-            }
+            weightsUpdatesPerLayer[k] = weightsUpdatesPerLayer[k]
+                    .add(deltasPerLayer[k].multiply(outputsPerLayer[k].transpose()).scalarMultiply(eta));
+            biasesUpdatesPerLayer[k] = biasesUpdatesPerLayer[k]
+                    .add(deltasPerLayer[k].scalarMultiply(eta));
         }
     }
     /* ---------------------------------------------------- */
