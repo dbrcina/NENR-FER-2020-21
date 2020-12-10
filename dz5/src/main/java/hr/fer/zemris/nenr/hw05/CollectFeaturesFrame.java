@@ -17,7 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class TrainingFrame extends JFrame {
+public class CollectFeaturesFrame extends JFrame {
 
     private static final int N_FEATURES = 30;
 
@@ -30,7 +30,7 @@ public class TrainingFrame extends JFrame {
     private final JTextField fldClassType = new JTextField(10);
     private final JButton btnSave = new JButton("Save");
 
-    public TrainingFrame() {
+    public CollectFeaturesFrame() {
         setResizable(true);
         setTitle("Training window");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -122,7 +122,7 @@ public class TrainingFrame extends JFrame {
 
     public static void main(String[] args) {
         ClassType.init();
-        SwingUtilities.invokeLater(() -> new TrainingFrame().setVisible(true));
+        SwingUtilities.invokeLater(() -> new CollectFeaturesFrame().setVisible(true));
     }
 
 }

@@ -1,5 +1,6 @@
 package hr.fer.zemris.bscthesis.dataset;
 
+import java.io.Serializable;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -8,12 +9,13 @@ import java.util.List;
  *
  * @author dbrcina
  */
-public interface Dataset extends Iterable<Sample> {
+public interface Dataset extends Iterable<Sample>, Serializable {
 
     /**
      * Setter for list of samples.
      *
      * @param samples list of samples.
+     *
      * @throws NullPointerException if provided list is <code>null</code>.
      */
     void setSamples(List<Sample> samples);
@@ -34,6 +36,7 @@ public interface Dataset extends Iterable<Sample> {
      * Loads dataset defined in provided <code>file</code>.
      *
      * @param file dataset definition.
+     *
      * @throws Exception if something goes wrong.
      */
     void loadDataset(Path file) throws Exception;

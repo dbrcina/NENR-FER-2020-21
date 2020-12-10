@@ -10,6 +10,7 @@ import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealVector;
 
 import javax.swing.*;
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -22,7 +23,7 @@ import java.util.*;
  * @author dbrcina
  * @see LearningType
  */
-public class NeuralNetwork {
+public class NeuralNetwork implements Serializable {
 
     /**
      * Enum that models learning types of Backpropagation algorithm. Valid types are:

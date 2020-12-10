@@ -9,6 +9,9 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.io.ObjectInputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,6 +67,23 @@ public class ValidationFrame extends JFrame {
             }
         });
         return canvas;
+    }
+
+    public static void main(String[] args) {
+        System.out.println("Reading neural network object from 'nn.object' file...");
+        NeuralNetwork nn;
+        try (ObjectInputStream is = new ObjectInputStream(
+                Files.newInputStream(Paths.get("nn.object")))
+        ) {
+            nn = (NeuralNetwork) is.readObject();
+            System.out.println("Object was successfully read!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Neural network object was not read!");
+            return;
+        }
+        ClassType.init();
+        SwingUtilities.invokeLater(() -> new ValidationFrame(nn).setVisible(true));
     }
 
 }

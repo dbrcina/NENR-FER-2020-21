@@ -2,6 +2,8 @@ package hr.fer.zemris.bscthesis.dataset;
 
 import hr.fer.zemris.bscthesis.classes.ClassType;
 
+import java.io.Serializable;
+
 /**
  * Models one sample used for training ANN. Each sample consists of:
  * <ul>
@@ -12,7 +14,7 @@ import hr.fer.zemris.bscthesis.classes.ClassType;
  *
  * @author dbrcina
  */
-public class Sample {
+public class Sample implements Serializable {
 
     private final double[] inputs;
     private final double[] outputs;

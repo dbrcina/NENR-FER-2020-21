@@ -5,10 +5,12 @@ import hr.fer.zemris.bscthesis.ann.afunction.Sigmoid;
 import hr.fer.zemris.bscthesis.classes.ClassType;
 import hr.fer.zemris.bscthesis.dataset.Dataset;
 
-import javax.swing.*;
+import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 
-public class Demo {
+public class TrainNetworkDemo {
 
     public static void main(String[] args) throws Exception {
         if (args.length != 4) {
@@ -46,7 +48,16 @@ public class Demo {
 
         nn.train(100_000, 0.02, 0.01);
 
-        SwingUtilities.invokeLater(() -> new ValidationFrame(nn).setVisible(true));
+        System.out.println("Saving neural network object to 'nn.object' file...");
+        try (ObjectOutputStream os = new ObjectOutputStream(
+                Files.newOutputStream(Paths.get("nn.object")))
+        ) {
+            os.writeObject(nn);
+            System.out.println("Object was successfully saved!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Neural network object was not saved!");
+        }
     }
 
 }

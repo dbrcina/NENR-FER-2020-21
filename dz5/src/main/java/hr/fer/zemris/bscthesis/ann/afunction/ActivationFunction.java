@@ -3,6 +3,7 @@ package hr.fer.zemris.bscthesis.ann.afunction;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -15,7 +16,7 @@ import java.util.Objects;
  *
  * @author dbrcina
  */
-public abstract class ActivationFunction {
+public abstract class ActivationFunction implements Serializable {
 
     private static Map<String, ActivationFunction> aFunctionsMap;
 

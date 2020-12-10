@@ -4,6 +4,7 @@ import java.awt.*;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.util.List;
 import java.util.*;
@@ -47,7 +48,7 @@ import java.util.stream.Collectors;
  *
  * @author dbrcina
  */
-public abstract class ClassType {
+public abstract class ClassType implements Serializable {
 
     /**
      * Map which stores class name as a key and desired outputs for that class as a value.
