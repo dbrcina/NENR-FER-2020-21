@@ -11,8 +11,13 @@ public class Demo {
 
     public static void main(String[] args) {
         ANFIS anfis = ANFIS.builder()
-                .init(6, uniformInitialization(new Random(), -1, 1));
-        anfis.fit(generateSamples());
+                .init(7, uniformInitialization(new Random(), -1, 1))
+                .setStochastic(false)
+                .setEpochs((int) 1e6)
+                .setTol(0.02)
+                .setEtaXY(1e-3)
+                .setEtaZ(1e-4)
+                .fit(generateSamples());
     }
 
     private static Consumer<double[]> uniformInitialization(Random random, double lb, double ub) {
