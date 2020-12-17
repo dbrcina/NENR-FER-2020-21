@@ -274,7 +274,7 @@
 			  {\large\sffamily ZAVR\v{S}NI RAD br.~\@thesisnumber \par}%
 			\else \if@raddiplomski%
 			  {\large\sffamily DIPLOMSKI RAD br.~\@thesisnumber \par}%
-			\else {\large\sffamily\bfseries NEIZRAZITO, EVOLUCIJSKO I NEURORAČUNARSTO \par}%
+			\else {\large\sffamily\bfseries NEIZRAZITO, EVOLUCIJSKO I NEURO RAČUNARSTVO \par}%
 			\fi\fi
 			\if@radseminar \vskip 3em%
 			\else \vskip 1em%
