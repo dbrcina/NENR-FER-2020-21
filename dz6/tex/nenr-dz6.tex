@@ -1,6 +1,8 @@
 \documentclass[times, utf8, seminar]{fer}
 
 \usepackage[hidelinks]{hyperref}
+\usepackage{subfig}
+\usepackage{float}
 
 \begin{document}
 
@@ -20,7 +22,7 @@ gdje \textit{y\textsubscript{k}} predstavlja željeni izlaz za \textit{k}-ti uzo
 Ažuriranje parametara u skladu s algoritmom gradijentnog spusta:
 \[\psi(t+1) = \psi(t) - \eta \cdot \frac{\partial E_k}{\partial \psi}.\]
 
-Promatrat ćemo ANFIS koji koristi zaključivanje tipa 3 (metodu Takagi-Sugeno-Kang). Neuro-fuzzy sustav će imati dva ulaza i jedan izlaz čime će obavljati preslikavanje $\mathbb{R}^2 \rightarrow \mathbb{R}.$. U općem slučaju, neuro-fuzzy sustav će raspolagati s \textit{m} pravila:
+Promatrat ćemo ANFIS koji koristi zaključivanje tipa 3 (metodu Takagi-Sugeno-Kang). Neuro-fuzzy sustav će imati dva ulaza i jedan izlaz čime će obavljati preslikavanje $\mathbb{R}^2 \rightarrow \mathbb{R}$. U općem slučaju, neuro-fuzzy sustav će raspolagati s \textit{m} pravila:
 \begin{itemize}
     \item[] $\mathbb{R}_1 : \text{Ako } x \text{ je } A_1 \text{ i } y \text{ je } B_1 \text{ tada } z = p_1x + q_1y + r_1$
     \item[] $\mathbb{R}_2 : \text{Ako } x \text{ je } A_2 \text{ i } y \text{ je } B_2 \text{ tada } z = p_2x + q_2y + r_2$
@@ -84,18 +86,111 @@ gdje je $\pi_i = \alpha_i \cdot \beta_i$. Sada kada znamo kako je sve definirano
 
 \chapter{Zadatak 3}
 
-% \begin{figure}[H]
-%     \centering
-%     \includegraphics[scale=0.75]{img/clustering.jpg}
-%     \caption[Caption for LOF]{Primjer grupiranja\footnotemark}
-%     \label{fig:clustering}
-% \end{figure}
-% \footnotetext{Preuzeto sa https://www.geeksforgeeks.org/clustering-in-machine-learning/ [Pristupljeno 10-Maj-2020].}
-
+\begin{figure}[H]
+    \includegraphics[scale=0.9]{img/generirajuca.png}
+    \caption{Graf generirajuće funkcije}
+\end{figure}
 
 \chapter{Zadatak 4}
 
+\section{Jedno pravilo}
+\begin{figure}[H]
+    \subfloat{\includegraphics[width=0.5\textwidth]{img/anfis-funkcija-jedno-pravilo-online.png}}
+    \subfloat{\includegraphics[width=0.5\textwidth]{img/anfis-funkcija-jedno-pravilo-grupno.png}}
+    \caption{Grafovi aproksimirane generirajuće funkcije}
+\end{figure}
+\begin{figure}[H]
+    \subfloat{\includegraphics[width=0.5\textwidth]{img/delta-jedno-pravilo-online.png}}
+    \subfloat{\includegraphics[width=0.5\textwidth]{img/delta-jedno-pravilo-grupno.png}}
+    \caption{Grafovi pogrešaka}
+\end{figure}
+
+\section{Dva pravila}
+\begin{figure}[H]
+    \subfloat{\includegraphics[width=0.5\textwidth]{img/anfis-funkcija-dva-pravila-online.png}}
+    \subfloat{\includegraphics[width=0.5\textwidth]{img/anfis-funkcija-dva-pravila-grupno.png}}
+    \caption{Grafovi aproksimirane generirajuće funkcije}
+\end{figure}
+\begin{figure}[H]
+    \subfloat{\includegraphics[width=0.5\textwidth]{img/delta-dva-pravila-online.png}}
+    \subfloat{\includegraphics[width=0.5\textwidth]{img/delta-dva-pravila-grupno.png}}
+    \caption{Grafovi pogrešaka}
+\end{figure}
+
+\section{Prikladan broj pravila - sedam}
+\begin{figure}[H]
+    \subfloat{\includegraphics[width=0.5\textwidth]{img/anfis-funkcija-sedam-pravila-online.png}}
+    \subfloat{\includegraphics[width=0.5\textwidth]{img/anfis-funkcija-sedam-pravila-grupno.png}}
+    \caption{Grafovi aproksimirane generirajuće funkcije}
+\end{figure}
+\begin{figure}[H]
+    \subfloat{\includegraphics[width=0.5\textwidth]{img/delta-sedam-pravila-online.png}}
+    \subfloat{\includegraphics[width=0.5\textwidth]{img/delta-sedam-pravila-grupno.png}}
+    \caption{Grafovi pogrešaka}
+\end{figure}
+
 \chapter{Zadatak 5}
+\begin{figure}[H]
+    \subfloat{\includegraphics[width=0.5\textwidth]{img/pripadnostx-prvo-pravilo.png}}
+    \subfloat{\includegraphics[width=0.5\textwidth]{img/pripadnosty-prvo-pravilo.png}}
+    \caption{Funkcije pripadnosti za prvo pravilo}
+\end{figure}
+\begin{figure}[H]
+    \subfloat{\includegraphics[width=0.5\textwidth]{img/pripadnostx-drugo-pravilo.png}}
+    \subfloat{\includegraphics[width=0.5\textwidth]{img/pripadnosty-drugo-pravilo.png}}
+    \caption{Funkcije pripadnosti za drugo pravilo}
+\end{figure}
+\begin{figure}[H]
+    \subfloat{\includegraphics[width=0.5\textwidth]{img/pripadnostx-trece-pravilo.png}}
+    \subfloat{\includegraphics[width=0.5\textwidth]{img/pripadnosty-trece-pravilo.png}}
+    \caption{Funkcije pripadnosti za treće pravilo}
+\end{figure}
+\begin{figure}[H]
+    \subfloat{\includegraphics[width=0.5\textwidth]{img/pripadnostx-cetvrto-pravilo.png}}
+    \subfloat{\includegraphics[width=0.5\textwidth]{img/pripadnosty-cetvrto-pravilo.png}}
+    \caption{Funkcije pripadnosti za četvrto pravilo}
+\end{figure}
+\begin{figure}[H]
+    \subfloat{\includegraphics[width=0.5\textwidth]{img/pripadnostx-peto-pravilo.png}}
+    \subfloat{\includegraphics[width=0.5\textwidth]{img/pripadnosty-peto-pravilo.png}}
+    \caption{Funkcije pripadnosti za peto pravilo}
+\end{figure}
+\begin{figure}[H]
+    \subfloat{\includegraphics[width=0.5\textwidth]{img/pripadnostx-sesto-pravilo.png}}
+    \subfloat{\includegraphics[width=0.5\textwidth]{img/pripadnosty-sesto-pravilo.png}}
+    \caption{Funkcije pripadnosti za šesto pravilo}
+\end{figure}
+\begin{figure}[H]
+    \subfloat{\includegraphics[width=0.5\textwidth]{img/pripadnostx-sedmo-pravilo.png}}
+    \subfloat{\includegraphics[width=0.5\textwidth]{img/pripadnosty-sedmo-pravilo.png}}
+    \caption{Funkcije pripadnosti za sedmo pravilo}
+\end{figure}
+
+\chapter{Zadatak 7}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{img/loss-online.png}
+    \caption{}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{img/loss-grupno.png}
+    \caption{}
+\end{figure}
+Možemo vidjeti da \textit{online} učenje puno brže konvergira nego li grupno, no valja uzeti u obzir i stope učenja. U ovom eksperimentu za \textit{online} učenje su korištene stope učenja $10^{-3}$ i $30^{-4}$, dok za grupno $10^{-4}$ i $30^{-5}$. Dakle, razlika u redu veličina je 10.
+
+\chapter{Zadatak 8}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{img/stope-online.png}
+    \caption{}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{img/stope-grupno.png}
+    \caption{}
+\end{figure}
+Što je stopa učenja manja, to algoritam sporije konvergira, ali konvergira, dok što je stopa učenja veća, algoritam divergira. Također, optimalni iznosi stopa učenje za \textit{online} i grupno učenje razlikuju se za 10 puta.
 
 \bibliography{literatura}
 \bibliographystyle{fer}

@@ -1,8 +1,13 @@
 package hr.fer.zemris.nenr.hw06;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.StringJoiner;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * @author dbrcina
@@ -29,13 +34,16 @@ public class ANFIS {
     private double tol = 0.02;
     private double etaXY = 1e-4;
     private double etaZ = 3e-5;
+    private boolean writeError = false;
+    private int writeErrorNEpochs = 100;
+    private String errorFile;
 
     private ANFIS() {
     }
 
-    public double calculateOutput(double x, double y) {
+    public double predict(double x, double y) {
         double[] tmp = new double[numberOfRules];
-        return calculateOutput(x, y, tmp, tmp, tmp, tmp);
+        return predict(x, y, tmp, tmp, tmp, tmp);
     }
 
     public ANFIS fit(double[][] samples) {
@@ -53,6 +61,7 @@ public class ANFIS {
 
         double[][][] batches = prepareBatches(samples);
         boolean reachedTol = false;
+        StringJoiner sj = new StringJoiner(" ");
         for (int epoch = 0; epoch < epochs; epoch++) {
             double error = 0.0;
 
@@ -61,7 +70,7 @@ public class ANFIS {
                     double x = sample[0];
                     double y = sample[1];
                     double f = sample[2];
-                    double output = calculateOutput(x, y, alphaK, betaK, productK, zk);
+                    double output = predict(x, y, alphaK, betaK, productK, zk);
                     double outputError = f - output;
                     error += outputError * outputError;
                     double productSum = Arrays.stream(productK).sum();
@@ -102,18 +111,30 @@ public class ANFIS {
                     rk[i] = 0;
                 }
             }
-
-            reachedTol = exitCondition(error, samples.length, epoch);
+            error /= (2 * samples.length);
+            if ((epoch + 1) % writeErrorNEpochs == 0) {
+                sj.add(String.valueOf(error));
+            }
+            reachedTol = exitCondition(error, epoch);
             if (reachedTol) break;
         }
 
         if (!reachedTol) {
             System.out.println("Reached maximum number of epochs (" + epochs + "). Exiting...");
         }
+        if (writeError) {
+            try {
+                System.out.println("Saving errors through epochs into " + errorFile + " file");
+                Files.writeString(Paths.get(errorFile), sj.toString());
+                System.out.println("Saved successfully!");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         return this;
     }
 
-    private double calculateOutput(
+    private double predict(
             double x, double y, double[] alpha, double[] beta, double[] product, double[] z) {
         double output = 0.0;
         double productSum = 0.0;
@@ -146,8 +167,7 @@ public class ANFIS {
         return batches;
     }
 
-    private boolean exitCondition(double error, int n, int epoch) {
-        error /= (2 * n);
+    private boolean exitCondition(double error, int epoch) {
         boolean exit = error <= tol;
         if (epoch == 0 || exit || (epoch + 1) % 1000 == 0) {
             System.out.println("Epoch " + (epoch + 1) + ": error = " + error);
@@ -156,6 +176,29 @@ public class ANFIS {
             }
         }
         return exit;
+    }
+
+    public void writeParamsToFiles() {
+        try {
+            System.out.println("Saving optimal parameters into files...");
+            Files.writeString(Paths.get("a.txt"),
+                    Arrays.stream(a).mapToObj(String::valueOf).collect(Collectors.joining(" ")));
+            Files.writeString(Paths.get("b.txt"),
+                    Arrays.stream(b).mapToObj(String::valueOf).collect(Collectors.joining(" ")));
+            Files.writeString(Paths.get("c.txt"),
+                    Arrays.stream(c).mapToObj(String::valueOf).collect(Collectors.joining(" ")));
+            Files.writeString(Paths.get("d.txt"),
+                    Arrays.stream(d).mapToObj(String::valueOf).collect(Collectors.joining(" ")));
+            Files.writeString(Paths.get("p.txt"),
+                    Arrays.stream(p).mapToObj(String::valueOf).collect(Collectors.joining(" ")));
+            Files.writeString(Paths.get("q.txt"),
+                    Arrays.stream(q).mapToObj(String::valueOf).collect(Collectors.joining(" ")));
+            Files.writeString(Paths.get("r.txt"),
+                    Arrays.stream(r).mapToObj(String::valueOf).collect(Collectors.joining(" ")));
+            System.out.println("Parameters saved successfully");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public ANFIS init(int numberOfRules, Consumer<double[]> action) {
@@ -201,6 +244,21 @@ public class ANFIS {
 
     public ANFIS setEtaZ(double etaZ) {
         this.etaZ = etaZ;
+        return this;
+    }
+
+    public ANFIS setWriteError(boolean writeError) {
+        this.writeError = writeError;
+        return this;
+    }
+
+    public ANFIS setWriteErrorNEpochs(int writeErrorNEpochs) {
+        this.writeErrorNEpochs = writeErrorNEpochs;
+        return this;
+    }
+
+    public ANFIS setErrorFile(String errorFile) {
+        this.errorFile = errorFile;
         return this;
     }
 

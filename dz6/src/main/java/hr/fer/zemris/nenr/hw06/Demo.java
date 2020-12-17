@@ -19,22 +19,27 @@ public class Demo {
         double[][] samples = generateSamples();
         ANFIS anfis = ANFIS.builder()
                 .init(Integer.parseInt(args[0]), uniformInitialization(new Random(), -1, 1))
-                .setStochastic(true)
-                .setEpochs((int) 1e6)
-                .setTol(0.02)
-                .setEtaXY(1e-3)
-                .setEtaZ(1e-4);
-        anfis.fit(samples);
-        double[][] data = Arrays.stream(samples)
-                .map(double[]::clone)
-                .toArray(double[][]::new);
-        for (int i = 0; i < data.length; i++) {
-            double x = data[i][0];
-            double y = data[i][1];
-            double f = anfis.calculateOutput(x, y);
-            data[i][2] = f;
+                .setStochastic(Boolean.parseBoolean(args[1]))
+                .setEpochs(Integer.parseInt(args[2]))
+                .setTol(Double.parseDouble(args[3]))
+                .setEtaXY(Double.parseDouble(args[4]))
+                .setEtaZ(Double.parseDouble(args[5]));
+        if (args.length >= 7) {
+            anfis.setWriteError(Boolean.parseBoolean(args[6]));
+            anfis.setErrorFile(args[7]);
         }
-        writeToCSV(new String[]{"x", "y", "f"}, data, "data.csv");
+        anfis.fit(samples);
+//        anfis.writeParamsToFiles();
+//        double[][] data = Arrays.stream(samples)
+//                .map(double[]::clone)
+//                .toArray(double[][]::new);
+//        for (int i = 0; i < data.length; i++) {
+//            double x = data[i][0];
+//            double y = data[i][1];
+//            double f = anfis.predict(x, y);
+//            data[i][2] = f;
+//        }
+//        writeToCSV(new String[]{"x", "y", "f"}, data, "data.csv");
     }
 
     private static Consumer<double[]> uniformInitialization(Random random, double lb, double ub) {
