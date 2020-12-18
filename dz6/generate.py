@@ -53,20 +53,22 @@ def zadatak5():
 		
 def zadatak7():
 	errors = np.loadtxt('errors.txt')
-	plt.plot([i for i in range(1, len(errors)+1)], errors)
+	plt.plot([i for i in range(100, (len(errors)+1)*100, 100)], errors)
 	plt.xlabel('Broj epoha')
 	plt.ylabel('Gubitak')
+	plt.yscale('log')
 	plt.title('Kretanje gubitka kroz epohe za grupno učenje')
 	plt.show()
 	
 def zadatak8():
-	for entry in [('errors_optimal.txt',1e-3,3e-4), ('errors_slow.txt',1e-5,3e-6), ('errors_div.txt',0.1,0.1)]:
+	for entry in [('errors_optimal.txt',1e-4,3e-5), ('errors_slow.txt',1e-6,3e-7), ('errors_div.txt',0.01,0.01)]:
 		errors = np.loadtxt(entry[0])
-		plt.plot([i for i in range(1,101)], errors[0:100], label=f'$\eta={entry[1],entry[2]}$')
+		plt.plot([i for i in range(100,101*100,100)], errors[0:100], label=f'$\eta={entry[1],entry[2]}$')
 	plt.xlabel('Broj epoha')
 	plt.ylabel('Gubitak')
 	plt.legend()
-	plt.title('Kretanje gubitka kroz epohe za online učenje')
+	plt.yscale('log')
+	plt.title('Kretanje gubitka kroz epohe za grupno učenje')
 	plt.show()
 	
 plt.rcParams.update({'font.size': 12})
@@ -75,4 +77,4 @@ plt.rcParams.update({'font.size': 12})
 #zadatak4b()
 #zadatak5()
 #zadatak7()
-#zadatak8()
+zadatak8()
