@@ -63,7 +63,6 @@ public class NeuralNetwork {
             }
             outputs = currentLayerOutputs;
         }
-
         return outputs;
     }
 

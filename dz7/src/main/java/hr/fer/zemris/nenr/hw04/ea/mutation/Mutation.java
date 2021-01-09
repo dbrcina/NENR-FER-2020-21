@@ -1,6 +1,6 @@
-package hr.fer.zemris.apr.hw04.ea.mutation;
+package hr.fer.zemris.nenr.hw04.ea.mutation;
 
-import hr.fer.zemris.apr.hw04.ea.solution.Solution;
+import hr.fer.zemris.nenr.hw04.ea.solution.Solution;
 
 /**
  * Models a genetic operator <i>mutation</i>.
