@@ -125,7 +125,9 @@ public class NeuralNetwork {
         sb.append("\n");
         System.out.println(sb.toString());
 
-        System.out.println("Krivi rezultati za ulaze:");
+        if (negatives != 0) {
+            System.out.println("Krivi rezultati za ulaze:");
+        }
         negativeInputs.forEach(System.out::println);
     }
 

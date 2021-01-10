@@ -25,5 +25,20 @@ def zad2():
     return
 
 
+def zad4():
+    dataset = np.loadtxt('zad7-dataset.txt')
+    X = dataset[:, :2]
+    y = dataset[:, 2:]
+    plt.scatter(X[:, 0], X[:, 1], c=y, cmap=plt.cm.tab20b, marker='o', s=50)
+    plt.xlabel('x')
+    plt.ylabel('y')
+    params = np.loadtxt('params.txt')[:8 * 2 * 2]
+    centroids = params[::2]
+    plt.scatter(centroids[::2], centroids[1::2], color='black')
+    plt.show()
+    return
+
+
 # zad1()
-zad2()
+# zad2()
+zad4()

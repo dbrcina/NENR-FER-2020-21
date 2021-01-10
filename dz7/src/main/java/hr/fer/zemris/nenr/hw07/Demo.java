@@ -4,9 +4,10 @@ import hr.fer.zemris.bscthesis.classes.ClassType;
 import hr.fer.zemris.bscthesis.dataset.Dataset;
 import hr.fer.zemris.bscthesis.dataset.Sample;
 import hr.fer.zemris.nenr.hw04.ea.EvolutionaryAlgorithm;
+import hr.fer.zemris.nenr.hw04.ea.crossover.ArithmeticCrossover;
 import hr.fer.zemris.nenr.hw04.ea.crossover.BLXACrossover;
+import hr.fer.zemris.nenr.hw04.ea.crossover.UniformCrossover;
 import hr.fer.zemris.nenr.hw04.ea.ga.EliminationGeneticAlgorithm;
-import hr.fer.zemris.nenr.hw04.ea.ga.GenerationGeneticAlgorithm;
 import hr.fer.zemris.nenr.hw04.ea.initializer.RandomDoublePopulationInitializer;
 import hr.fer.zemris.nenr.hw04.ea.mutation.GaussMutation;
 import hr.fer.zemris.nenr.hw04.ea.selection.KTournamentSelection;
@@ -37,21 +38,44 @@ public class Demo {
         Dataset dataset = createDataset(file);
         NeuralNetwork nn = new NeuralNetwork("2x8x3");
         Random random = new Random();
-        int populationSize = 100;
+        int populationSize = 50;
         double epsilon = 1e-7;
-        int maxGenerations = 1_000_000;
+        int maxGenerations = 100_000;
         EvolutionaryAlgorithm<Solution<Double>> alg = new EliminationGeneticAlgorithm<>(
+                random,
                 populationSize,
                 maxGenerations,
                 epsilon,
                 new RandomDoublePopulationInitializer(random, nn.getWeightsCount(), minValue, maxValue),
                 new KTournamentSelection<>(random, 3),
-                new BLXACrossover(random, 0.5),
-                new GaussMutation(random, 0.1, 0.02),
+                List.of(
+                        new BLXACrossover(random, 0.5),
+                        new UniformCrossover(random),
+                        new ArithmeticCrossover()
+                ),
+                List.of(
+                        new GaussMutation(random, 0.1, 0.02, true),
+                        new GaussMutation(random, 0.2, 0.02, true),
+                        new GaussMutation(random, 1, 0.02, false)
+                ),
+                new int[]{3, 1, 1},
                 solution -> -nn.calcError(dataset, Arrays.stream(solution.getGenes()).mapToDouble(d -> d).toArray())
         );
         Solution<Double> solution = alg.run();
-        nn.statistics(dataset, Arrays.stream(solution.getGenes()).mapToDouble(d -> d).toArray());
+        double[] weights = Arrays.stream(solution.getGenes()).mapToDouble(d -> d).toArray();
+        System.out.println();
+        nn.statistics(dataset, weights);
+
+        // Save weights to the file
+        System.out.println("Spremam težine u 'params.txt'...");
+        try {
+            Files.writeString(Paths.get("params.txt"), Arrays.stream(weights)
+                    .mapToObj(String::valueOf)
+                    .collect(Collectors.joining(" ")));
+        } catch (Exception e) {
+            System.out.println("Nije uspjelo!");
+        }
+        System.out.println("Uspješno spremljeno!");
     }
 
     private static Dataset createDataset(Path file) throws Exception {

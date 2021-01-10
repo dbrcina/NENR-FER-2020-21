@@ -8,8 +8,7 @@ import hr.fer.zemris.nenr.hw04.ea.mutation.Mutation;
 import hr.fer.zemris.nenr.hw04.ea.selection.Selection;
 import hr.fer.zemris.nenr.hw04.ea.solution.Solution;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -21,34 +20,56 @@ public class GenerationGeneticAlgorithm<S extends Solution<?>> implements Evolut
 
     private final int ELITISM_SOLUTIONS = 2;
 
+    private final Random random;
     private final int populationSize;
     private final int maxGenerations;
     private final double epsilon;
     private final boolean useElitism;
     private final PopulationInitializer<S> initializer;
     private final Selection<S> selection;
-    private final Crossover<S> crossover;
-    private final Mutation<S> mutation;
+    private final Crossover<S>[] crossovers;
+    private final Mutation<S>[] mutations;
+    private final double[] probabilities;
     private final FitnessFunction<S> fitnessFunction;
 
+    @SuppressWarnings("unchecked")
     public GenerationGeneticAlgorithm(
+            Random random,
             int populationSize,
             int maxGenerations,
             double epsilon,
             boolean useElitism,
             PopulationInitializer<S> initializer,
             Selection<S> selection,
-            Crossover<S> crossover,
-            Mutation<S> mutation,
+            List<Crossover<S>> crossovers,
+            List<Mutation<S>> mutations,
+            int[] mutationsDesirability,
             FitnessFunction<S> fitnessFunction) {
+        this.random = random;
         this.populationSize = populationSize;
         this.maxGenerations = maxGenerations;
         this.epsilon = epsilon;
         this.useElitism = useElitism;
         this.initializer = initializer;
         this.selection = selection;
-        this.crossover = crossover;
-        this.mutation = mutation;
+        this.crossovers = crossovers.toArray(Crossover[]::new);
+        double sum = Arrays.stream(mutationsDesirability).sum();
+        Map<Mutation<S>, Double> helperMap = new HashMap<>();
+        for (int i = 0; i < mutations.size(); i++) {
+            helperMap.put(mutations.get(i), mutationsDesirability[i] / sum);
+        }
+        List<Map.Entry<Mutation<S>, Double>> sortedMutations = helperMap.entrySet().stream()
+                .sorted(Map.Entry.comparingByValue())
+                .collect(Collectors.toList());
+        this.mutations = sortedMutations.stream()
+                .map(Map.Entry::getKey)
+                .toArray(Mutation[]::new);
+        double prevProb = 0.0;
+        probabilities = new double[mutations.size()];
+        for (int i = 0; i < probabilities.length; i++) {
+            probabilities[i] = prevProb + sortedMutations.get(i).getValue();
+            prevProb += probabilities[i];
+        }
         this.fitnessFunction = fitnessFunction;
     }
 
@@ -70,10 +91,6 @@ public class GenerationGeneticAlgorithm<S extends Solution<?>> implements Evolut
                 }
                 if (bestSolution == null || solution.getFitness() > bestSolution.getFitness()) {
                     bestSolution = solution;
-//                    System.out.printf(
-//                            "Generation %6d: found new best solution with fitness %e and values %s%n",
-//                            generation + 1, bestSolution.getFitness(), bestSolution
-//                    );
                     System.out.printf(
                             "Generation %6d: found new best solution with fitness %e%n",
                             generation + 1, bestSolution.getFitness()
@@ -100,8 +117,8 @@ public class GenerationGeneticAlgorithm<S extends Solution<?>> implements Evolut
             while (newPopulation.size() < populationSize) {
                 S p1 = selection.select(population);
                 S p2 = selection.select(population);
-                S child = crossover.crossover(p1, p2);
-                child = mutation.mutate(child);
+                S child = crossovers[random.nextInt(crossovers.length)].crossover(p1, p2);
+                child = chooseMutation().mutate(child);
                 newPopulation.add(child);
             }
             population = newPopulation;
@@ -109,6 +126,16 @@ public class GenerationGeneticAlgorithm<S extends Solution<?>> implements Evolut
 
         System.out.println("Algorithm finished!");
         return bestSolution;
+    }
+
+    private Mutation<S> chooseMutation() {
+        double r = random.nextDouble();
+        for (int i = 0; i < probabilities.length; i++) {
+            if (r <= probabilities[i]) {
+                return mutations[i];
+            }
+        }
+        return mutations[mutations.length - 1];
     }
 
 }
