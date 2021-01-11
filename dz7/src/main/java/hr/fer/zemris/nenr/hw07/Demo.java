@@ -26,8 +26,11 @@ import java.util.stream.Collectors;
 public class Demo {
 
     public static void main(String[] args) throws Exception {
-        if (args.length != 2) {
-            System.out.println("Program expects a path to a dataset file and a save file!");
+        if (args.length != 3) {
+            System.out.println("Program expects 3 arguments:");
+            System.out.println("    (1) path to a dataset file,");
+            System.out.println("    (2) architecture,");
+            System.out.println("    (3) path to a save file.");
             System.out.println("Exiting...");
             return;
         }
@@ -36,7 +39,7 @@ public class Demo {
         double maxValue = 1;
         Path file = Paths.get(args[0]);
         Dataset dataset = createDataset(file);
-        NeuralNetwork nn = new NeuralNetwork("2x6x4x3");
+        NeuralNetwork nn = new NeuralNetwork(args[1]);
         Random random = new Random();
         int populationSize = 50;
         double epsilon = 1e-7;
@@ -67,7 +70,7 @@ public class Demo {
         nn.statistics(dataset, weights);
 
         // Save weights to the file
-        String save = args[1];
+        String save = args[2];
         System.out.println("Spremam težine u '" + save + "'...");
         try {
             Files.writeString(Paths.get(save), Arrays.stream(weights)
