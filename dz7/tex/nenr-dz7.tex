@@ -38,7 +38,7 @@ Sa slike \ref{zad1:img} se jasno uočava da što je manji \textit{s}, to je manj
     \label{zad2:img}
 \end{figure}
 \footnotetext{Izrađeno pomoću programskog jezika \textit{Python} i biblioteke \textit{Matplotlib}.}
-Slika \ref{zad2:img} jasno prikazuje kako su primjeri grupirani u 8 elipsa od kojih 3 crvene pripadaju razredu A, 3 zelene razredu B i 2 plave razredu C. Primjeri su linearno odvojivi. 
+Slika \ref{zad2:img} jasno prikazuje kako su primjeri grupirani u 8 elipsa od kojih 3 crvene pripadaju razredu A, 3 zelene razredu B i 2 plave razredu C. Primjeri su linearno neodvojivi. 
 
 \chapter{Zadatak 3}
 \begin{figure}[H]
@@ -47,7 +47,7 @@ Slika \ref{zad2:img} jasno prikazuje kako su primjeri grupirani u 8 elipsa od ko
     \caption{2x8x3 mreža}
     \label{zad3:img}
 \end{figure}
-Na slici \ref{zad3:img} prikazana je arhitektura 2x8x3 neuronske mreže gdje su, radi preglednosti, prikazani parametri samo za 3 nasumično odabrana neurona skrivenog sloja, koji su nazvani po željenim razredima, i za neurone izlaznog sloja. Težine skrivenog sloja sam odredio (odokativno pomoću slike \ref{zad2}) na temelju centroida, pa tako vrijednosti težina neurona A iznose 0.1 i 0.25, što predstavlja središte lijeve donje crvene elipse, vrijednosti težina neurona B iznose 0.1 i 0.75, što predstavlja središte lijeve gornje zelene elipse te vrijednosti težina neurona C iznose 0.38 i 0.75, što predstavlja središte prve gornje plave elipse. Parametre \textit{s\textsubscript{1}} i \textit{s\textsubscript{2}} sam postavio na 0.2, odnosno 0.4 jer po slici \ref{zad2:img} zaključujem da su skaliranja podjednaka s obzirom na pravilan izgled svake elipse. Također, parametar \textit{s\textsubscript{2}} je nešto veći jer su elipse malo izdužene po osi y. Težine izlaznog sloja sam postavio na 1, odnosno -1 zbog toga što one najbolje pokazuju koji neuron skrivenog sloja predstavlja koji razred. Valja napomenuti da neuroni skrivenog sloja generiraju brojeve koji su u intervalu $[0,1]$, stoga će se net vrijednost izlaznog neurona povećavati za pozitivne težine, dok će se za negativne smanjivati. Neuron sa najvećom net vrijednosti ćemo uzeti kao klasifikaciju uzorka.
+Na slici \ref{zad3:img} prikazana je arhitektura 2x8x3 neuronske mreže gdje su, radi preglednosti, prikazani parametri samo za 3 nasumično odabrana neurona skrivenog sloja, koji su nazvani po željenim razredima, i za neurone izlaznog sloja. Težine skrivenog sloja sam odredio (odokativno pomoću slike \ref{zad2:img}) na temelju centroida, pa tako vrijednosti težina neurona A iznose 0.1 i 0.25, što predstavlja središte lijeve donje crvene elipse, vrijednosti težina neurona B iznose 0.1 i 0.75, što predstavlja središte lijeve gornje zelene elipse te vrijednosti težina neurona C iznose 0.38 i 0.75, što predstavlja središte prve gornje plave elipse. Parametre \textit{s\textsubscript{1}} i \textit{s\textsubscript{2}} sam postavio na 0.2, odnosno 0.4 jer po slici \ref{zad2:img} zaključujem da su skaliranja podjednaka s obzirom na to da pravilan izgled svake elipse. Također, parametar \textit{s\textsubscript{2}} je nešto veći jer su elipse malo izdužene po osi y. Težine izlaznog sloja sam postavio na 1, odnosno -1 zbog toga što one najbolje pokazuju koji neuron skrivenog sloja predstavlja koji razred. Valja napomenuti da neuroni skrivenog sloja generiraju brojeve koji su u intervalu $[0,1]$, stoga će se net vrijednost izlaznog neurona povećavati za pozitivne težine, dok će se za negativne smanjivati. Neuron s najvećom net vrijednosti ćemo uzeti kao klasifikaciju uzorka.
 
 \chapter{Zadatak 4}
 \begin{figure}[H]
@@ -154,6 +154,8 @@ Tablica \ref{zad4:table2} predstavlja težine (bez pomaknuća) neurona tipa 2 i 
     \caption{Rezultati neurona tipa 1}
     \label{zad5:table}
 \end{table}
+
+Naučena neuronska mreža sa 2x8x4x3 arhitekturom također točno klasificira sve primjere iz dataseta kao i prijašnja mreža arhitekture 2x8x3, no uz cijenu brzine izvođenja i grafičke interpretacije neurona tipa 1. Za učenje mreže arhitekture 2x8x4x3 je potrebno manje generacija nego li učenje mreže arhitekture 2x8x3 jer ista brže konvergira s obzirom na to da ima veći kapacitet, no sama iteracija algoritma učenja traje duže jer je evaluacija mreže složenija.  
 
 \chapter{Zadatak 6}
 \begin{figure}[H]
